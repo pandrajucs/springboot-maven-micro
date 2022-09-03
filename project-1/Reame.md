@@ -47,3 +47,7 @@ curl https://get.docker.com | bash
 6) pull docker image from ECR and deploy on new server with help of ansible
 
 Note : Refer-Jenkins file and Playbook for reference
+
+access app with below URL :
+
+http://34.237.223.249:8080/course-svc/getAllDevopsTools
