@@ -1,3 +1,9 @@
+### Flow :
+
+### Git --> Git-Hub --> Maven build --> copy Jar to S3 bucket --> Build Docker Image --> Push that image to AWS-ECR --> Pull that Image from ECR using Ansible Playbook and deploy to Servers
+
+### Tools Used : Git,Git-Hub,Maven ,Docker,Ansible . AWS Servives - EC2, IAM Roles, AWS ECR , AWS S3
+
 1) Install Java, unzip , maven , docker, ansible, aws-cli, jenkins nad setup all tools
 #!/bin/bash
 sudo apt update
