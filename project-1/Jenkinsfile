@@ -1,0 +1,47 @@
+pipeline{
+    agent any
+    tools{
+        maven 'maven-3.8.6'
+    }
+    environment{
+        registry='682853443183.dkr.ecr.us-east-1.amazonaws.com/java'
+    }
+    stages{
+        stage('Clone Git-Repo'){
+            steps{
+                git branch: 'master', url: 'https://github.com/pandrajucs/springboot-maven-micro.git'
+            }
+        }
+        stage('Build-Maven'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('Copy Jar to S3'){
+            steps{
+                s3Upload acl: 'Private', bucket: 'test123', file: '/var/lib/jenkins/workspace/Pipeline/target/springboot-maven-course-micro-svc-0.0.1-SNAPSHOT.jar'
+            }
+        }
+        stage('Build Docker-Image'){
+            steps{
+                script{
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+
+            }
+        }
+        stage('Push Docker-Image to ECR'){
+            steps{
+                script{
+                     sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 682853443183.dkr.ecr.us-east-1.amazonaws.com'
+                       dockerImage.push()
+                       }
+                }
+        }
+        stage('Pull Docker-Image to CD-Server and Run Container'){
+            steps{
+                ansiblePlaybook become: true, credentialsId: 'ansible', inventory: 'inventory', playbook: 'playbook.yml'
+            }
+        }
+    }
+}
