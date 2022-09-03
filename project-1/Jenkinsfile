@@ -43,5 +43,16 @@ pipeline{
                 ansiblePlaybook become: true, credentialsId: 'ansible', inventory: 'inventory', playbook: 'playbook.yml'
             }
         }
+
+
     }
+    post {
+        success {
+                    slackSend botUser: true, channel: '#java-projects', message: "started Job: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER} BUILD URL :(<${env.BUILD_URL}|Open>) Build status is : ${currentBuild.currentResult}", teamDomain: 'JavaProjects', tokenCredentialId: 'slack'
+            }
+        failure {
+                slackSend botUser: true, channel: '#java-projects', message: "started Job: ${env.JOB_NAME} Build Number: ${env.BUILD_NUMBER} BUILD URL :(<${env.BUILD_URL}|Open>) Build status is : ${currentBuild.currentResult}", teamDomain: 'JavaProjects', tokenCredentialId: 'slack'
+            }
+        }
+
 }
