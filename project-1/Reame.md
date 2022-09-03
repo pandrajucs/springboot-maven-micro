@@ -55,7 +55,7 @@ sudo chown -R ansible /home/ansible/
 sudo touch /home/ansible/.ssh/authorized_keys
 sudo usermod -aG root ansible
 echo 'ansible ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
-echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDe7TlXAsagD9aN5B8Cbv4h++65JUq8cCqu2qHVos38qyT8Y+botNs91JPxMxBrjme+Tnmw7R/ztVy6CLDcUbY4o/P12KSjhgFxGlZNPCVPNSncwOzU4X0pxRZHU+8otdeiF9U19a3llWJVmTDZdfsUJcHljHiAq76ICxrmQ0eRjvuNR7dGYosu+EcLCuzDSwHH8klUed8bkwQEw99iuXEvfGZGNDMzRYweyUdj6armwui0cvnInvmYOTK+qdoVYd4rM34kLdwN+PSNwzin/e0M+ewtD2GQeWlLTvYa9Y3rB1sN/3JFujq87Xv83fnPUbmD4QnWuQwpx6AKDOoZbZb91MVq0+873IxZ8xeSO62LU844MXi+i/A0pzWtDMfRnZRUXTUQWaI9mvUA0wnvZnGHliW7zl3USlCgIV/HtWsi/V8TRwKcjE5rm8RjniYTIWjpGuqD+ZEkFRiH7WZosSfd6UH65BXDx7uW/0cARyy/a/YcU/idsvuhZOOnOu394jk= ' | sudo tee /home/ansible/.ssh/authorized_keys
+echo '<pub-key>' | sudo tee /home/ansible/.ssh/authorized_keys
 sudo apt update
 sudo apt install -y unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
