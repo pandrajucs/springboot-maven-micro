@@ -13,4 +13,4 @@
       shell: docker images
 
     - name: Run Container with Docker-Image
-      shell: docker run -d --name:spring -p 8080:8080 682853443183.dkr.ecr.us-east-1.amazonaws.com/java:12
+      shell: docker run -d --name=spring -p 8080:8080 682853443183.dkr.ecr.us-east-1.amazonaws.com/java:12
