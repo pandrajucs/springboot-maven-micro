@@ -1,8 +1,8 @@
 ### Flow :
 
-### Git --> Git-Hub --> Maven build --> copy Jar to S3 bucket --> Build Docker Image --> Push that image to AWS-ECR --> Pull that Image from ECR using Ansible Playbook and deploy to Servers
+### Git --> Git-Hub --> Maven build --> copy Jar to S3 bucket --> Build Docker Image --> Push that image to AWS-ECR --> Pull that Image from ECR using Ansible Playbook and deploy to Servers--> Send Slack Notification about Build-Status
 
-### Tools Used : Git,Git-Hub,Maven ,Docker,Ansible . AWS Servives - EC2, IAM Roles, AWS ECR , AWS S3
+### Tools Used : Git,Git-Hub,Maven ,Docker,Ansible, Slack . AWS Servives - EC2, IAM Roles, AWS ECR , AWS S3
 
 1) Install Java, unzip , maven , docker, ansible, aws-cli, jenkins nad setup all tools
 #!/bin/bash
@@ -27,8 +27,21 @@ sudo apt-get install jenkins -y
 cd /opt
 wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
 tar xzvf apache-maven-3.8.6-bin.tar.gz
+usermod -aG docker jenkins
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+service jenkins restart
 
 java --version && ansible --version && docker version && aws --version && maven --version
+
+# Plugins to Install
+---> Global tool Configuration--> Maven --> /opt/apache-maven-3.8.6
+1) Ansible
+2) Docker Pipeline
+3) AWS Steps
+4) Slack Notifications
+Configure System --> Slack--> Workspace (JavaProjects)-->Add Creds as secret text(token)-->Channel(#java-projects) --> Enable Custom slack app bot user
+
 
 2) Take Java code and try to build with maven code . It will build jar file
 3) Copy Jar file to S3 bucket
@@ -42,7 +55,7 @@ sudo chown -R ansible /home/ansible/
 sudo touch /home/ansible/.ssh/authorized_keys
 sudo usermod -aG root ansible
 echo 'ansible ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
-echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDh/9PjDLwX6AzRKmrG01iBCJ3ffEAe68aYDB1sBStGT9SsXvZuJkq1iHRl0R3sQvkpKDjc3Gt4gc25/fUN1/qIOA6k9a1hboySzoeY3SfL9UR8T4Fii1/zBtbMZ8o8gyJUXhLex3ETCx/cuVdrJJUGsRKV14stiWWAJHzJlueVtOAzx9WuYZEv1JmrTcgkF+WYoxiklR4gJqXq5Eu2J1hWfxqXsBdcq9mbI+gkBKxemCSefw7eqlc9zB2Qqdv+8mwJN2SxE36P8bDRge/2Fsu4RyyIOzKK70c3JqAzNSPKtJiklCX3E6VXffn7zYw0NYyj7mkQN1WmXBqnCKvQHMgNRxkN9pamrCUlWUZG1f4vAhhGU+Xybu2A5RHs8abxCM5/MMGtQe8r6sALN76rlZADSJ3Z9x9rfIs5Y14qUu1R9kBYXHN4UAWW2Eozk9XPKdrVwRalqI3HkSWgVVDaAY+WUVeXExrLCeqQxLF0OaGpr+dN90LTdpDhd6tDEDZuvkU=' | sudo tee /home/ansible/.ssh/authorized_keys
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDe7TlXAsagD9aN5B8Cbv4h++65JUq8cCqu2qHVos38qyT8Y+botNs91JPxMxBrjme+Tnmw7R/ztVy6CLDcUbY4o/P12KSjhgFxGlZNPCVPNSncwOzU4X0pxRZHU+8otdeiF9U19a3llWJVmTDZdfsUJcHljHiAq76ICxrmQ0eRjvuNR7dGYosu+EcLCuzDSwHH8klUed8bkwQEw99iuXEvfGZGNDMzRYweyUdj6armwui0cvnInvmYOTK+qdoVYd4rM34kLdwN+PSNwzin/e0M+ewtD2GQeWlLTvYa9Y3rB1sN/3JFujq87Xv83fnPUbmD4QnWuQwpx6AKDOoZbZb91MVq0+873IxZ8xeSO62LU844MXi+i/A0pzWtDMfRnZRUXTUQWaI9mvUA0wnvZnGHliW7zl3USlCgIV/HtWsi/V8TRwKcjE5rm8RjniYTIWjpGuqD+ZEkFRiH7WZosSfd6UH65BXDx7uW/0cARyy/a/YcU/idsvuhZOOnOu394jk= ' | sudo tee /home/ansible/.ssh/authorized_keys
 sudo apt update
 sudo apt install -y unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
