@@ -40,7 +40,7 @@ java --version && ansible --version && docker version && aws --version && maven 
 2) Docker Pipeline
 3) AWS Steps
 4) Slack Notifications
-Configure System --> Slack--> Workspace (JavaProjects)-->Add Creds as secret text(token)-->Channel(#java-projects) --> Enable Custom slack app bot user
+Configure System --> Slack--> Workspace-->Add Creds as secret text(token)-->Channel --> Enable Custom slack app bot user
 
 
 2) Take Java code and try to build with maven code . It will build jar file
