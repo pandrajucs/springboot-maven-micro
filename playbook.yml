@@ -13,7 +13,7 @@
       shell: docker images
 
     - name: Remove Running Containers
-      shell: docker rm $(docker ps -aq)
+      shell: docker stop $(docker ps -aq) && docker rm $(docker ps -aq) 
 
     - name: Run Container with Docker-Image
       shell: docker run -d --name=spring -p 8080:8080 682853443183.dkr.ecr.us-east-1.amazonaws.com/java:12
